@@ -403,6 +403,7 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
   <input type="email" id="emailInput" placeholder="Zadajte email" required />
   <input type="password" id="passwordInput" placeholder="Zadajte heslo" required />
   <button type="submit">Prihlásiť sa</button>
+  <button type="button" id="registerBtn">Vytvoriť účet</button>
   <p id="loginError" style="color: red; display: none;">Nesprávny email alebo heslo.</p>
 </form>
 
@@ -649,6 +650,29 @@ loginForm.addEventListener("submit", function(e) {
     loginError.style.display = "block";
   }
 });
+
+// Registrácia nového používateľa cez Firebase
+const registerBtn = document.getElementById("registerBtn");
+
+registerBtn.addEventListener("click", () => {
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  if (!email || !password) {
+    alert("Zadajte email a heslo pre registráciu.");
+    return;
+  }
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      alert("Účet bol úspešne vytvorený. Teraz sa môžete prihlásiť.");
+    })
+    .catch((error) => {
+      alert("Registrácia zlyhala: " + error.message);
+      console.error("Chyba pri registrácii:", error);
+    });
+});
+
 
 
   // Klik na tlačidlo TAPETA (screen1)
