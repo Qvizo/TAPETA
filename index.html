@@ -456,6 +456,25 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
     </div>
   </div>
 
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyALKzb-oEV_hMNx79QGgMmEh1y3RIVepg8",
+    authDomain: "tapeta-app.firebaseapp.com",
+    projectId: "tapeta-app",
+    storageBucket: "tapeta-app.firebasestorage.app",
+    messagingSenderId: "572326739657",
+    appId: "1:572326739657:web:002f89814551f4930b5718",
+    measurementId: "G-NQED7815HC"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
 <script>
 
 // Premenná, do ktorej uložíme načítané dáta
