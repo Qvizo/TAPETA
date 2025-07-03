@@ -462,6 +462,14 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
 
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+const auth = getAuth();
+
   const firebaseConfig = {
     apiKey: "AIzaSyALKzb-oEV_hMNx79QGgMmEh1y3RIVepg8",
     authDomain: "tapeta-app.firebaseapp.com",
@@ -628,9 +636,6 @@ function shuffleArray(array) {
     screen.classList.add("active");
   }
   
-  const correctEmail = "tapeta@tapeta.com";
-const correctPassword = "t";
-
 const loginForm = document.getElementById("loginForm");
 const emailInput = document.getElementById("emailInput");
 const passwordInput = document.getElementById("passwordInput");
@@ -642,14 +647,17 @@ loginForm.addEventListener("submit", function(e) {
   const email = emailInput.value.trim();
   const password = passwordInput.value;
 
-  if (email === correctEmail && password === correctPassword) {
+  signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Úspešné prihlásenie
     loginError.style.display = "none";
     loginForm.style.display = "none";
     btnTapeta.style.display = "block"; // odhalíme tlačidlo ENTER
-  } else {
+  })
+  .catch((error) => {
     loginError.style.display = "block";
-  }
-});
+    console.error("Chyba pri prihlásení:", error);
+  });
 
 // Registrácia nového používateľa cez Firebase
 const registerBtn = document.getElementById("registerBtn");
