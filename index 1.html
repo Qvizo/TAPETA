@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&family=Lato&family=Montserrat&family=Oswald&family=Raleway&family=Playfair+Display&family=Poppins&family=Ubuntu&family=Merriweather&display=swap&subset=latin-ext" rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+  <title>TAPETA App</title>
+  <style>
+    /* Reset a základ */
+    html, body {
+      margin: 0; padding: 0; height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      display: flex; justify-content: center; align-items: center;
+      background: #007bff;
+    }
+    body {
+      min-width: 320px;
+      min-height: 480px;
+    }
+    button {
+      cursor: pointer;
+      user-select: none;
+    }
+    /* Obrazovky */
+    .screen {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      box-sizing: border-box;
+      padding: 10px 20px;
+      text-align: center;
+    }
+    .active {
+      display: flex;
+    }
+    /* 1. okno */
+    #screen1 {
+      background-color: #007bff;
+    }
+    #btnTapeta {
+      border: 3px solid black;
+      font-weight: bold;
+      font-size: 2rem;
+      font-family: 'Bauhaus 93';
+      background-color: green;
+      color: white;
+      width: 50vw;
+      max-width: 300px;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+      transition: background-color 0.3s, color 0.3s;
+      text-transform: uppercase;
+      border-radius: 10px; /* pridaj toto pre zaoblené rohy */
+    }
+    #btnTapeta.active {
+      background-color: #004085;
+      color: white;
+    }
+    
+       #emailInput, #passwordInput, #loginForm button {
+  width: 50%;  /* zväčší šírku polí */
+  padding: 15px;  /* zväčší vnútorné okraje pre pohodlnejšie zadávanie */
+  font-size: 1.6rem;  /* zväčší veľkosť písma */
+  margin-bottom: 20px;  /* pridá medzeru medzi polia */
+  border-radius: 10px;  /* zaoblené rohy */
+  border: 2px solid #007bff;  /* pridá okraj pre polia */
+  box-sizing: border-box;  /* zaručí, že padding sa zohľadní v šírke */
+}
+
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+#loginForm button:hover {
+  background-color: #0056b3;  /* tmavšia modrá pri hover */
+}
+    
+    /* 2. okno - dizajn pôvodný podľa teba */
+    #screen2 {
+      background-color: #28a745;
+      padding: 15px;
+      box-sizing: border-box;
+      align-items: center;
+    }
+#logoTapeta2 {
+  font-weight: bold;
+  font-size: 2rem;
+  border: 2px solid black;
+  border-radius: 10px; /* pridaj toto pre zaoblené rohy */
+  padding: 10px 30px;
+  user-select: none;
+  background-color: white;
+  cursor: default;
+  margin-bottom: 20px;
+  width: fit-content;
+  text-transform: uppercase;
+  margin-left: auto;
+  margin-right: auto;
+ 
+
+background-color: orange;
+  font-family: 'Bauhaus 93';
+  color: yellow;
+}
+    #screen2 .btn-group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    #screen2 button {
+      min-width: 100px;
+      max-width: 140px;
+      padding: 10px 0;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 6px;
+      border: 2px solid black;
+      background: white;
+      text-transform: uppercase;
+      user-select: none;
+      transition: background-color 0.3s;
+    }
+    #screen2 button:hover:not(:disabled) {
+      background-color: #cce5cc;
+    }
+    #screen2 button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+    /* 3. okno */
+    #screen3 {
+      background-color: #ff77b2;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 15px;
+      text-align: center;
+      transition: background-color 0.5s ease;
+      box-sizing: border-box;
+      height: 100vh;
+
+    }
+    
+    #textCount {
+      font-weight: bold;
+      margin-bottom: 12px;
+      font-size: 2rem;
+      user-select: none;
+      text-transform: uppercase;
+    }
+    
+#randomQuote {
+
+  border-radius: 50px;       /* oblé rohy */
+  border-width: 20px;         /* hrubšie lemovanie */
+  border-style: solid;       /* aby lemovanie bolo viditeľné */
+  border-color: white;       /* alebo iná farba podľa potreby */
+  box-shadow: 
+
+    0 0 0 20px black;            /* vonkajší čierny lem */
+
+  color: gray; /* Alebo white, red, #123456, atď. */	  
+  padding: 40px 30px;
+  background-color: white;
+  font-weight: bold;
+  font-size: clamp(3rem, 6vw + 3vh, 7rem); /* väčší font, ktorý sa prispôsobuje obrazovke */
+  width: 50vw;
+  height: 50vh;
+  margin-bottom: 25px;
+  user-select: none;
+  transition: font-family 0.5s ease;
+  text-transform: uppercase;
+  
+  overflow-wrap: normal;
+  word-break: keep-all;
+  white-space: normal;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+
+ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
+  flex-grow: 0;     /* nedovoľí zväčšiť */
+  flex-basis: auto;
+
+  /* nepovoliť roztiahnutie textu mimo box */
+  white-space: normal;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+
+
+}
+    #controls3 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+      max-width: 320px;
+    }
+    #controls3 button {
+      flex: 1 1 auto;
+      min-width: 80px;
+      padding: 12px 8px;
+      font-weight: bold;
+      border: 3px solid black;
+      user-select: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      background: white;
+      transition: background-color 0.3s;
+    }
+    #controls3 button:hover:not(:disabled) {
+      background-color: #ffb6d6;
+    }
+    
+     #btnBack {
+      transform: translateX(250px);
+    }
+      #btnStop {
+      transform: translateX(-250px);
+    }
+    
+ #timerDisplay {
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: monospace;
+  width: 60px;
+  text-align: center;
+  user-select: none;
+  color: yellow;
+}
+    
+#textTimerWrapper {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  font-weight: bold;
+  font-size:2rem;
+  user-select: none;
+    flex-direction: column; /* ← pridaj toto */
+  align-items: center;    /* voliteľné – centrovanie obsahu na stred */
+}
+
+#textCount {
+  white-space: nowrap;  /* Zabraňuje zlomeniu textu na viac riadkov */
+  font-family: monospace;
+  font-size: 2rem;
+  font-weight: bold;
+  display: inline-block; /* môžeš aj flex, ale inline-block bude stačiť */
+  vertical-align: middle;
+  color: white;
+  }
+  
+     
+  
+
+#screen3 #logoTapeta2 {
+  position: relative;
+  top: -5px; /* posunie logo o 20px vyššie */
+}
+    
+    /* MEDIA QUERIES */
+    @media (max-width: 480px) and (orientation: portrait) {
+      #btnTapeta {
+        width: 70vw;
+        height: 60px;
+        font-size: 1.6rem;
+      }
+      #screen2 button {
+        min-width: 45vw;
+        max-width: none;
+        font-size: 0.9rem;
+        padding: 10px 5px;
+      }
+      #logoTapeta2 {
+        font-size: 1.5rem;
+        padding: 8px 20px;
+      }
+      #randomQuote {
+    font-size: clamp(2rem, 7vw + 2.5vh, 4.5rem); /* väčšie hodnoty */
+    width: 80vw;  /* väčší box na malej obrazovke */
+    height: 70vh;
+  border-radius: 50px;       /* oblé rohy */
+  border-width: 5px;         /* hrubšie lemovanie */
+  border-style: solid;       /* aby lemovanie bolo viditeľné */
+  border-color: white;       /* alebo iná farba podľa potreby */
+  box-shadow: 0 0 0 5px black;            /* vonkajší čierny lem */
+    padding: 20px 10px;
+
+
+ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
+  flex-grow: 0;     /* nedovoľí zväčšiť */
+  flex-basis: auto;
+
+  /* nepovoliť roztiahnutie textu mimo box */
+  white-space: normal;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+
+
+      }
+      #controls3 button {
+        min-width: 60px;
+        font-size: 0.9rem;
+        padding: 8px 6px;
+      }
+      #timerDisplay {
+        font-size: 1.6rem;
+        width: 50px;
+      }
+    }
+
+    @media (max-width: 720px) and (orientation: landscape) {
+      #btnTapeta {
+        width: 50vw;
+        height: 70px;
+        font-size: 1.8rem;
+      }
+      #screen2 button {
+        min-width: 35vw;
+        font-size: 1rem;
+        padding: 10px 8px;
+      }
+      #randomQuote {
+font-size: clamp(3rem, 6vw + 3vh, 7rem); /* väčší font, ktorý sa prispôsobuje obrazovke */
+padding: 25px 20px;
+  width: 70vw;
+  height: 70vh;
+      }
+      #controls3 button {
+        font-size: 1rem;
+      }
+      #timerDisplay {
+        font-size: 1.8rem;
+        width: 55px;
+      }
+    }
+
+
+    @media (min-width: 721px) {
+      #btnTapeta {
+        width: 250px;
+        height: 80px;
+        font-size: 2rem;
+      }
+      #screen2 button {
+        min-width: 140px;
+        font-size: 1.1rem;
+        padding: 12px 10px;
+      }
+      #randomQuote {
+ font-size: clamp(3rem, 6vw + 3vh, 7rem); /* väčší font, ktorý sa prispôsobuje obrazovke */
+       width: 1300px;
+        height: 600px;
+        padding: 25px 20px;
+
+flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
+  flex-grow: 0;     /* nedovoľí zväčšiť */
+  flex-basis: auto;
+
+  /* nepovoliť roztiahnutie textu mimo box */
+  white-space: normal;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+
+      }
+      #controls3 button {
+        min-width: 90px;
+        font-size: 1.1rem;
+        padding: 12px 10px;
+      }
+      #timerDisplay {
+        font-size: 2rem;
+        width: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SCREEN 1 -->
+  <div id="screen1" class="screen active">
+<div id="logoTapeta2">TAPETA</div>
+<form id="loginForm">
+  <input type="email" id="emailInput" placeholder="Zadajte email" required />
+  <input type="password" id="passwordInput" placeholder="Zadajte heslo" required />
+  <button type="submit">Prihlásiť sa</button>
+  <p id="loginError" style="color: red; display: none;">Nesprávny email alebo heslo.</p>
+</form>
+
+<button id="btnTapeta" style="display:none;">ENTER</button>
+  </div>
+
+  <!-- SCREEN 2 -->
+  <div id="screen2" class="screen">
+    <div id="logoTapeta2">TAPETA</div>
+
+<div style="margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; color: white;">
+  Vyber si časový interval
+</div>
+    <div class="btn-group" id="btnGroupTimer">
+      <button class="btn-timer" data-time="2">2</button>
+      <button class="btn-timer" data-time="20">20</button>
+      <button class="btn-timer" data-time="30">30</button>
+      <button class="btn-timer" data-time="40">40</button>
+    </div>
+<div style="margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; color: white;">
+  Vyber si tému
+</div>
+    <div class="btn-group" id="btnGroupTopic">
+      <button class="btn-topic" data-topic="citaty">Citáty</button>
+      <button class="btn-topic" data-topic="porekadla">Porekadlá</button>
+      <button class="btn-topic" data-topic="vtipy">Vtipy</button>
+      <button class="btn-topic" data-topic="vsetko">Všetko</button>
+    </div>
+
+<div style="margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; color: white;">
+  Vyber FULL SCREEN a ŠTART
+</div>
+    <div class="btn-group" id="btnGroupTop">
+      <button id="btnFullScreen">FULL SCREEN</button>
+      <button id="btnStart" disabled>ŠTART</button>
+
+    </div>
+  </div>
+
+  <!-- SCREEN 3 -->
+  <div id="screen3" class="screen">
+  <div id="logoTapeta2">TAPETA</div>
+  <div id="randomQuote" aria-live="polite" aria-atomic="true"></div>
+      <div id="controls3">
+      <button id="btnBack">SPÄŤ ÚVOD</button>
+      <div id="textTimerWrapper">
+       <div id="textCount" aria-live="polite" aria-atomic="true">0/0</div>
+      <div id="timerDisplay">0</div>
+        </div>
+      <button id="btnStop" disabled>STOP COLOR</button>
+    </div>
+  </div>
+
+<script>
+
+// Premenná, do ktorej uložíme načítané dáta
+let quotesDB = {
+  citaty: [],
+  porekadla: [],
+  vtipy: [],
+};
+
+// Funkcia na načítanie všetkých troch súborov
+async function loadQuotes() {
+  try {
+    const [citatyRes, porekadlaRes, vtipyRes] = await Promise.all([
+      fetch('citaty.json'),
+      fetch('porekadla.json'),
+      fetch('vtipy.json'),
+    ]);
+
+    if (!citatyRes.ok || !porekadlaRes.ok || !vtipyRes.ok) {
+      throw new Error('Nepodarilo sa načítať jeden z JSON súborov');
+    }
+
+    const citaty = await citatyRes.json();
+    const porekadla = await porekadlaRes.json();
+    const vtipy = await vtipyRes.json();
+
+    quotesDB = { citaty, porekadla, vtipy };
+    console.log('Quotes loaded:', quotesDB);
+
+    initApp(); // zavoláme funkciu, ktorá spustí tvoju aplikáciu po načítaní dát
+
+  } catch (error) {
+    console.error('Chyba pri načítaní dát:', error);
+  }
+}
+
+// Príklad spustenia aplikácie s načítanými dátami
+function initApp() {
+  // Tu pokračuje tvoja logika aplikácie, napríklad:
+  // aktivovanie tlačidiel, výber citátov podľa témy a pod.
+
+  // Napríklad nastavenie tlačidla ENTER viditeľné, keď sú dáta načítané:
+  document.getElementById('btnTapeta').style.display = 'flex';
+
+  // Alebo rovno zobrazíme nejaký citát, testujeme:
+  document.getElementById('randomQuote').textContent = quotesDB.citaty[0];
+}
+
+// Zavoláme načítanie dát hneď po načítaní skriptu
+loadQuotes();
+  
+
+  // Farby pozadia pre 3. obrazovku (ružová, fialová, tyrkysová, zelená)
+const bgColors = [
+  "#ff0000", // červená (základná)
+  "#00ff00", // zelená (základná)
+  "#0000ff", // modrá (základná)
+  "#ffff00", // žltá (základná)
+  "#ffa500", // oranžová
+  "#800080", // fialová
+  "#008080", // tyrkysová
+  "#ffc0cb", // ružová
+  "#a52a2a", // hnedá
+  "#808080", // sivá
+  "#008000", // tmavo zelená
+  "#000080", // tmavo modrá
+  "#ff4500", // oranžovo-červená
+  "#2e8b57", // morsky zelená
+  "#6a5acd", // slivková modrá
+  "#20b2aa", // svetlá tyrkysová
+  "#f0e68c", // svetlá žltá (konope)
+  "#d2691e"  // čokoládová
+];
+
+  // Fonty pre #randomQuote (napríklad)
+  const fonts = [
+  "'Roboto', sans-serif",
+  "'Open Sans', sans-serif",
+  "'Lato', sans-serif",
+  "'Montserrat', sans-serif",
+  "'Oswald', sans-serif",
+  "'Raleway', sans-serif",
+  "'Poppins', sans-serif",
+  "'Ubuntu', sans-serif",
+  "'Merriweather', serif",
+  "'Playfair Display', serif"
+  ];
+
+  // Elementy
+  const screen1 = document.getElementById("screen1");
+  const screen2 = document.getElementById("screen2");
+  const screen3 = document.getElementById("screen3");
+  const btnTapeta = document.getElementById("btnTapeta");
+  const btnStart = document.getElementById("btnStart");
+  const btnFullScreen = document.getElementById("btnFullScreen");
+  const btnBack = document.getElementById("btnBack");
+  const btnStop = document.getElementById("btnStop");
+  const textCount = document.getElementById("textCount");
+  const randomQuote = document.getElementById("randomQuote");
+  const timerDisplay = document.getElementById("timerDisplay");
+  const btnTopics = document.querySelectorAll(".btn-topic");
+  const btnTimers = document.querySelectorAll(".btn-timer");
+
+  // Stav aplikácie
+
+let combinedAllQuotes = [];    // všetky citáty v jednom cykle
+let combinedQuoteIndex = 0;
+let combinedCycleCompleted = false;
+  let selectedTopic = null;
+  let selectedTime = null;
+  let currentQuoteIndex = 0;
+  let colorIndex = 0;
+  let fontIndex = 0;
+  let timerInterval = null;
+  let countdown = 0;
+  let cycleCompleted = false;
+  
+  let lockColors = false;  // pridaj hore medzi globálne premenne
+let lockedBgColor = null;
+let lockedQuoteBgColor = null;
+let lockedTextColor = null;
+
+let shuffledQuotes = [];
+  
+  let shuffledFonts = shuffleArray([...fonts]);
+
+function getNextFont() {
+  if (fontIndex >= shuffledFonts.length) {
+    shuffledFonts = shuffleArray([...fonts]);
+    fontIndex = 0;
+  }
+  return shuffledFonts[fontIndex++];
+}
+
+  
+  let shuffledIndices = [];
+let shuffledPosition = 0;
+
+function shuffleArray(array) {
+  for (let i = array.length -1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+  // Pomocná funkcia zmeniť obrazovku
+  function showScreen(screen) {
+    [screen1, screen2, screen3].forEach(s => s.classList.remove("active"));
+    screen.classList.add("active");
+  }
+  
+  const correctEmail = "tapeta@tapeta.com";
+const correctPassword = "t";
+
+const loginForm = document.getElementById("loginForm");
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
+const loginError = document.getElementById("loginError");
+
+loginForm.addEventListener("submit", function(e) {
+  e.preventDefault(); // zabránime reloadu stránky
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  if (email === correctEmail && password === correctPassword) {
+    loginError.style.display = "none";
+    loginForm.style.display = "none";
+    btnTapeta.style.display = "block"; // odhalíme tlačidlo ENTER
+  } else {
+    loginError.style.display = "block";
+  }
+});
+
+
+  // Klik na tlačidlo TAPETA (screen1)
+  btnTapeta.addEventListener("click", () => {
+    showScreen(screen2);
+  });
+
+  // Výber témy
+btnTopics.forEach(btn => {
+  btn.addEventListener("click", () => {
+    btnTopics.forEach(b => b.disabled = false);
+    btn.disabled = true;
+    selectedTopic = btn.getAttribute("data-topic");
+    checkStartAvailability();
+  });
+});
+
+  // Výber času
+  btnTimers.forEach(btn => {
+    btn.addEventListener("click", () => {
+      btnTimers.forEach(b => b.disabled = false);
+      btn.disabled = true;
+      selectedTime = parseInt(btn.getAttribute("data-time"), 10);
+      checkStartAvailability();
+    });
+  });
+
+  // Overenie, či sa môže aktivovať ŠTART
+  function checkStartAvailability() {
+    if (selectedTopic && selectedTime) {
+      btnStart.disabled = false;
+    } else {
+      btnStart.disabled = true;
+    }
+  }
+
+  // Funkcia na zosvetlenie farby (vracia hex)
+  function lightenColor(hex, luminosity = 0) {
+    hex = hex.replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+      hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    }
+    let rgb = "#", c, i;
+    for (i = 0; i < 3; i++) {
+      c = parseInt(hex.substr(i*2,2), 16);
+      c = Math.min(255, Math.floor(c + (255 - c) * luminosity));
+      let cHex = c.toString(16);
+      if (cHex.length < 2) cHex = "0" + cHex;
+      rgb += cHex;
+    }
+    return rgb;
+  }
+  
+function fitTextToContainer(element, minFontSize = 12, maxFontSize = 130) {
+  let fontSize = maxFontSize;
+  const containerWidth = element.clientWidth;
+  const containerHeight = element.clientHeight;
+
+  element.style.wordWrap = "break-word"; // istota
+  element.style.fontSize = fontSize + "px";
+
+  // Pomaly znižujeme font, kým sa nezmestí
+  while (fontSize > minFontSize && (element.scrollWidth > containerWidth || element.scrollHeight > containerHeight)) {
+    fontSize--;
+    element.style.fontSize = fontSize + "px";
+  }
+}
+
+  // Zobrazenie slov po jednom s efektom
+function showWordsSequentially(fullText, callback) {
+  const match = fullText.match(/^(.*)\s+\(([^)]+)\)$/);
+  const mainText = match ? match[1] : fullText;
+  const authorText = match ? match[2] : "";
+
+  randomQuote.innerHTML = "";
+
+  const container = document.createElement("div");
+  container.style.display = "inline-block";
+  container.style.textAlign = "center";
+  container.style.lineHeight = "1.4";
+  container.style.maxWidth = "100%";
+
+  const textSpan = document.createElement("span");
+  textSpan.style.display = "inline-block";
+  textSpan.style.wordWrap = "break-word";
+  textSpan.style.whiteSpace = "normal";
+  textSpan.style.maxWidth = "100%";
+  container.appendChild(textSpan);
+
+  randomQuote.appendChild(container);
+
+  const words = mainText.split(" ");
+  let idx = 0;
+
+  function showNext() {
+    if (idx < words.length) {
+      if (idx > 0) textSpan.textContent += " ";
+      textSpan.textContent += words[idx];
+
+      fitTextToContainer(randomQuote, 12, 130);
+      idx++;
+      setTimeout(showNext, 400);
+    } else {
+      // Vytvorenie bloku pre autora na samostatný riadok pod textom
+      const authorDiv = document.createElement("div");
+      authorDiv.textContent = `(${authorText})`;
+      authorDiv.style.fontSize = "50%";
+      authorDiv.style.textAlign = "center";
+      authorDiv.style.marginTop = "0.5em";
+      authorDiv.style.display = "block";  // dôležité, aby bol na novom riadku
+      authorDiv.style.width = "100%";     // zaberie celý riadok
+
+      container.appendChild(authorDiv);
+
+      fitTextToContainer(randomQuote, 12, 130);
+      if (callback) callback();
+    }
+  }
+  showNext();
+}
+
+
+
+
+
+
+
+  // Získa náhodný index citátu
+  function getRandomQuoteIndex() {
+    return Math.floor(Math.random() * quotesDB[selectedTopic].length);
+  }
+  
+  function getContrastColor(hexColor) {
+  // Odstráni # ak je na začiatku
+  hexColor = hexColor.replace('#', '');
+
+  // Prevod hex na RGB
+  const r = parseInt(hexColor.substr(0,2), 16);
+  const g = parseInt(hexColor.substr(2,2), 16);
+  const b = parseInt(hexColor.substr(4,2), 16);
+
+  // Výpočet jasu podľa ITU-R BT.709
+  const brightness = (r * 0.2126 + g * 0.7152 + b * 0.0722);
+
+  // Ak je jas väčší ako 128, vráti tmavú farbu, inak bielu
+  return brightness > 128 ? '#000000' : '#FFFFFF';
+}
+  
+function getRandomQuoteFromAll() {
+  const allTopics = ["citaty", "porekadla", "vtipy"];
+  const randomTopic = allTopics[Math.floor(Math.random() * allTopics.length)];
+  const quotesArray = quotesDB[randomTopic];
+  return quotesArray[Math.floor(Math.random() * quotesArray.length)];
+}
+
+ function displayNextQuote() {
+  let quote;
+
+  if (selectedTopic === "vsetko") {
+    const totalCount =
+      quotesDB.citaty.length +
+      quotesDB.porekadla.length +
+      quotesDB.vtipy.length;
+
+    if (!combinedCycleCompleted) {
+      quote = combinedAllQuotes[combinedQuoteIndex];
+      combinedQuoteIndex++;
+      textCount.textContent = `${combinedQuoteIndex} / ${totalCount}`;
+
+      if (combinedQuoteIndex >= combinedAllQuotes.length) {
+        combinedCycleCompleted = true;
+      }
+    } else {
+      // Nový cyklus – premiešaj všetky znova
+      combinedAllQuotes = shuffleArray([
+        ...quotesDB.citaty,
+        ...quotesDB.porekadla,
+        ...quotesDB.vtipy
+      ]);
+      combinedQuoteIndex = 0;
+      combinedCycleCompleted = false;
+
+      quote = combinedAllQuotes[combinedQuoteIndex];
+      combinedQuoteIndex++;
+      textCount.textContent = `${combinedQuoteIndex} / ${totalCount}`;
+    }
+  } else {
+    if (!cycleCompleted) {
+      quote = shuffledQuotes[currentQuoteIndex];
+      currentQuoteIndex++;
+      textCount.textContent = `${currentQuoteIndex} / ${quotesDB[selectedTopic].length}`;
+
+      if (currentQuoteIndex >= shuffledQuotes.length) {
+        cycleCompleted = true;
+      }
+    } else {
+      shuffledQuotes = shuffleArray([...quotesDB[selectedTopic]]);
+      currentQuoteIndex = 0;
+      cycleCompleted = false;
+
+      quote = shuffledQuotes[currentQuoteIndex];
+      currentQuoteIndex++;
+      textCount.textContent = `${currentQuoteIndex} / ${quotesDB[selectedTopic].length}`;
+    }
+  }
+
+  // Nastavenie farieb, fontov a zobrazenie citátu
+  let baseColor, lighterColor, textColor;
+
+  if (lockColors && lockedBgColor && lockedQuoteBgColor && lockedTextColor) {
+    baseColor = lockedBgColor;
+    lighterColor = lockedQuoteBgColor;
+    textColor = lockedTextColor;
+  } else {
+    baseColor = bgColors[colorIndex];
+    lighterColor = lightenColor(baseColor, 0.3);
+    textColor = getContrastColor(baseColor);
+
+    if (lockColors) {
+      lockedBgColor = baseColor;
+      lockedQuoteBgColor = lighterColor;
+      lockedTextColor = textColor;
+    }
+  }
+
+  screen3.style.backgroundColor = baseColor;
+  randomQuote.style.backgroundColor = lighterColor;
+  randomQuote.style.color = textColor;
+  randomQuote.style.fontFamily = getNextFont();
+
+  colorIndex = (colorIndex + 1) % bgColors.length;
+  fontIndex = (fontIndex + 1) % fonts.length;
+
+  btnStop.disabled = true;
+
+  showWordsSequentially(quote, () => {
+    btnStop.disabled = false;
+    startTimerCountdown(selectedTime);
+  });
+}
+
+  // Spustenie odpočtu času
+  function startTimerCountdown(seconds) {
+    clearInterval(timerInterval);
+    countdown = seconds;
+    timerDisplay.textContent = countdown;
+    timerInterval = setInterval(() => {
+      countdown--;
+      timerDisplay.textContent = countdown;
+      if (countdown <= 0) {
+        clearInterval(timerInterval);
+        displayNextQuote();
+      }
+    }, 1000);
+  }
+
+btnStart.addEventListener("click", () => {
+  currentQuoteIndex = 0;
+  cycleCompleted = false;
+  colorIndex = 0;
+  fontIndex = 0;
+
+  if (!selectedTopic || !selectedTime) return;
+  showScreen(screen3);
+
+  if (selectedTopic === "vsetko") {
+    combinedAllQuotes = shuffleArray([
+      ...quotesDB.citaty,
+      ...quotesDB.porekadla,
+      ...quotesDB.vtipy
+    ]);
+    combinedQuoteIndex = 0;
+    combinedCycleCompleted = false;
+  } else {
+    shuffledQuotes = shuffleArray([...quotesDB[selectedTopic]]);
+  }
+
+  displayNextQuote(); // ← chýbalo
+});
+
+
+  // Tlačidlo STOP (screen3)
+  btnStop.addEventListener("click", () => {
+  clearInterval(timerInterval);
+
+  // Prepnúť režim uzamknutia farieb
+  lockColors = !lockColors;
+
+  if (!lockColors) {
+    // Reset uložených farieb
+    lockedBgColor = null;
+    lockedQuoteBgColor = null;
+    lockedTextColor = null;
+  }
+
+  displayNextQuote(); // Zobraz nový citát s (ne)zamknutými farbami
+});
+
+  // Tlačidlo SPÄŤ (screen3)
+  btnBack.addEventListener("click", () => {
+    clearInterval(timerInterval);
+    btnStop.disabled = true;
+    showScreen(screen2);
+  });
+
+  // Tlačidlo FULL SCREEN (screen2)
+  btnFullScreen.addEventListener("click", () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  });
+</script>
+
+</body>
+</html>
