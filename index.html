@@ -674,15 +674,22 @@ registerBtn.addEventListener("click", () => {
     return;
   }
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      alert("Účet bol úspešne vytvorený. Teraz sa môžete prihlásiť.");
-    })
-    .catch((error) => {
-      alert("Registrácia zlyhala: " + error.message);
-      console.error("Chyba pri registrácii:", error);
-    });
-});
+createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    alert("Účet bol úspešne vytvorený. Teraz sa prihlasujeme...");
+
+    // Automatické prihlásenie
+    return signInWithEmailAndPassword(auth, email, password);
+  })
+  .then((loginCredential) => {
+    loginError.style.display = "none";
+    loginForm.style.display = "none";
+    btnTapeta.style.display = "block";
+  })
+  .catch((error) => {
+    alert("Chyba: " + error.message);
+    console.error("Chyba:", error);
+  });
 
 
 
