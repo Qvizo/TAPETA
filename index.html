@@ -461,16 +461,15 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
-
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
 
-  const firebaseConfig = {
+
+   const firebaseConfig = {
     apiKey: "AIzaSyALKzb-oEV_hMNx79QGgMmEh1y3RIVepg8",
     authDomain: "tapeta-app.firebaseapp.com",
     projectId: "tapeta-app",
@@ -480,10 +479,67 @@ import {
     measurementId: "G-NQED7815HC"
   };
 
-  const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+ const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
   const analytics = getAnalytics(app);
 
+const loginForm = document.getElementById("loginForm");
+  const emailInput = document.getElementById("emailInput");
+  const passwordInput = document.getElementById("passwordInput");
+  const registerBtn = document.getElementById("registerBtn");
+  const btnTapeta = document.getElementById("btnTapeta");
+  const loginError = document.getElementById("loginError");
+
+
+  // PRIHLÁSENIE
+  loginForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        loginError.style.display = "none";
+        loginForm.style.display = "none";
+        btnTapeta.style.display = "block";
+      })
+      .catch((error) => {
+        loginError.style.display = "block";
+        console.error("Chyba pri prihlásení:", error);
+      });
+  });
+
+  // REGISTRÁCIA
+  registerBtn.addEventListener("click", () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if (!email || !password) {
+      alert("Zadajte email a heslo pre registráciu.");
+      return;
+    }
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        alert("Účet bol úspešne vytvorený. Teraz sa prihlasujeme...");
+        return signInWithEmailAndPassword(auth, email, password);
+      })
+      .then((loginCredential) => {
+        loginError.style.display = "none";
+        loginForm.style.display = "none";
+        btnTapeta.style.display = "block";
+      })
+      .catch((error) => {
+        alert("Chyba: " + error.message);
+        console.error("Chyba:", error);
+      });
+  });
+
+  // PRECHOD na screen2
+  btnTapeta.addEventListener("click", () => {
+    document.getElementById("screen1").classList.remove("active");
+    document.getElementById("screen2").classList.add("active");
+  });
 </script>
 
 <script>
@@ -638,10 +694,9 @@ function shuffleArray(array) {
     screen.classList.add("active");
   }
   
-const loginForm = document.getElementById("loginForm");
-const emailInput = document.getElementById("emailInput");
-const passwordInput = document.getElementById("passwordInput");
-const loginError = document.getElementById("loginError");
+
+
+
 
 loginForm.addEventListener("submit", function(e) {
   e.preventDefault(); // zabránime reloadu stránky
