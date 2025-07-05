@@ -535,11 +535,14 @@ signInWithEmailAndPassword(auth, email, password)
       });
   });
 
+
   // PRECHOD na screen2
   btnTapeta.addEventListener("click", () => {
     document.getElementById("screen1").classList.remove("active");
     document.getElementById("screen2").classList.add("active");
   });
+
+
 </script>
 
 <script>
@@ -745,6 +748,7 @@ createUserWithEmailAndPassword(auth, email, password)
     alert("Chyba: " + error.message);
     console.error("Chyba:", error);
   });
+ });
 
 
 
