@@ -727,36 +727,6 @@ loginForm.addEventListener("submit", function(e) {
   });
   });
 
-// Registrácia nového používateľa cez Firebase
-const registerBtn = document.getElementById("registerBtn");
-
-registerBtn.addEventListener("click", () => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
-
-  if (!email || !password) {
-    alert("Zadajte email a heslo pre registráciu.");
-    return;
-  }
-
-createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    alert("Účet bol úspešne vytvorený. Teraz sa prihlasujeme...");
-
-    // Automatické prihlásenie
-    return signInWithEmailAndPassword(auth, email, password);
-  })
-  .then((loginCredential) => {
-    loginError.style.display = "none";
-    loginForm.style.display = "none";
-    btnTapeta.style.display = "block";
-  })
-  .catch((error) => {
-    alert("Chyba: " + error.message);
-    console.error("Chyba:", error);
-  });
- });
-
 
 
   // Klik na tlačidlo TAPETA (screen1)
