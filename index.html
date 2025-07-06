@@ -482,24 +482,6 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
  const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const analytics = getAnalytics(app);
-  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    try {
-      // Skúsime si načítať nový token = overenie či účet ešte existuje
-      await user.getIdToken(true);
-      loginForm.style.display = "none";
-      btnTapeta.style.display = "block";
-      console.log("✅ Užívateľ prihlásený");
-    } catch (error) {
-      // Token neexistuje = účet zmazaný = odhlásenie
-      await signOut(auth);
-      console.log("❌ Token zlyhal – používateľ odhlásený.");
-    }
-  }
-});
-
 
 const loginForm = document.getElementById("loginForm");
   const emailInput = document.getElementById("emailInput");
