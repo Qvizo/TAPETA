@@ -491,49 +491,56 @@ const loginForm = document.getElementById("loginForm");
   const loginError = document.getElementById("loginError");
 
 
-  // PRIHLÁSENIE
-  loginForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
+  // PRIHLÁSENIE S KONTROLOU OVERENIA EMAILU
+loginForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
 
-signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        loginError.style.display = "none";
-        loginForm.style.display = "none";
-        btnTapeta.style.display = "block";
-      })
-      .catch((error) => {
-        loginError.style.display = "block";
-        console.error("Chyba pri prihlásení:", error);
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+
+      if (!user.emailVerified) {
+        alert("Tvoj email ešte nebol overený. Skontroluj svoju schránku.");
+        return;
+      }
+
+      loginError.style.display = "none";
+      loginForm.style.display = "none";
+      btnTapeta.style.display = "block";
+    })
+    .catch((error) => {
+      loginError.style.display = "block";
+      console.error("Chyba pri prihlásení:", error);
+    });
+});
+
+
+  // REGISTRÁCIA S OVERENÍM EMAILU
+registerBtn.addEventListener("click", () => {
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  if (!email || !password) {
+    alert("Zadajte email a heslo pre registráciu.");
+    return;
+  }
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+
+      // Odošli overovací email
+      return user.sendEmailVerification().then(() => {
+        alert("Účet bol vytvorený. Skontroluj svoj email a potvrď overenie.");
       });
-  });
-
-  // REGISTRÁCIA
-  registerBtn.addEventListener("click", () => {
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-
-    if (!email || !password) {
-      alert("Zadajte email a heslo pre registráciu.");
-      return;
-    }
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        alert("Účet bol úspešne vytvorený. Teraz sa prihlasujeme...");
-        return signInWithEmailAndPassword(auth, email, password);
-      })
-      .then((loginCredential) => {
-        loginError.style.display = "none";
-        loginForm.style.display = "none";
-        btnTapeta.style.display = "block";
-      })
-      .catch((error) => {
-        alert("Chyba: " + error.message);
-        console.error("Chyba:", error);
-      });
-  });
+    })
+    .catch((error) => {
+      alert("Chyba: " + error.message);
+      console.error("Chyba:", error);
+    });
+});
 
 
   // PRECHOD na screen2
