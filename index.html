@@ -462,10 +462,11 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
   import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
-  } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
 
 
@@ -517,8 +518,8 @@ loginForm.addEventListener("submit", function (e) {
 });
 
 
-  // REGISTRÁCIA S OVERENÍM EMAILU
-registerBtn.addEventListener("click", () => {
+  // REGISTRÁCIA S VYNÚTENÝM ODHLÁSENÍM A OVERENÍM EMAILU
+registerBtn.addEventListener("click", async () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value;
 
@@ -527,19 +528,17 @@ registerBtn.addEventListener("click", () => {
     return;
   }
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
+  try {
+    await signOut(auth); // ⛔ Vynúti odhlásenie starého session
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
-      // Odošli overovací email
-      return user.sendEmailVerification().then(() => {
-        alert("Účet bol vytvorený. Skontroluj svoj email a potvrď overenie.");
-      });
-    })
-    .catch((error) => {
-      alert("Chyba: " + error.message);
-      console.error("Chyba:", error);
-    });
+    await user.sendEmailVerification();
+    alert("Účet bol vytvorený. Skontroluj svoj email a potvrď overenie.");
+  } catch (error) {
+    alert("Chyba: " + error.message);
+    console.error("Chyba:", error);
+  }
 });
 
 
