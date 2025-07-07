@@ -520,7 +520,8 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
     });
 });
 
- registerBtn.addEventListener("click", () => {
+ // REGISTRÁCIA
+registerBtn.addEventListener("click", () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value;
 
@@ -529,17 +530,20 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
     return;
   }
 
-  // Vytvorenie používateľa
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
+      // Po vytvorení používateľa pošleme overovací e-mail
       const user = userCredential.user;
-      alert("Účet bol úspešne vytvorený. Posielame overovací e-mail...");
 
-      // Poslanie overovacieho e-mailu
-      return user.sendEmailVerification();
-    })
-    .then(() => {
-      alert("Overovací e-mail bol odoslaný. Prosím, skontrolujte svoju poštu.");
+      // Posielame overovací e-mail
+      user.sendEmailVerification()
+        .then(() => {
+          alert("Účet bol úspešne vytvorený. Overovací e-mail bol poslaný na váš e-mail.");
+          // Môžeme ho požiadat, aby sa prihlásil po overení
+        })
+        .catch((error) => {
+          alert("Chyba pri odosielaní overovacieho e-mailu: " + error.message);
+        });
     })
     .catch((error) => {
       alert("Chyba: " + error.message);
