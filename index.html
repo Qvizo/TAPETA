@@ -407,6 +407,16 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
   <p id="loginError" style="color: red; display: none;">Nesprávny email alebo heslo.</p>
 </form>
 
+<div id="accessCodeArea" style="margin-top: 20px; display: none;">
+  <input type="text" id="accessCodeInput" placeholder="Zadaj prístupový kód" />
+  <button id="accessCodeBtn">Overiť kód</button>
+  <p id="accessCodeError" style="color: red; display: none;">Nesprávny alebo chýbajúci kód.</p>
+</div>
+
+
+
+
+
 <button id="btnTapeta" style="display:none;">ENTER</button>
   </div>
 
@@ -489,6 +499,27 @@ import { sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.10.
   const btnTapeta = document.getElementById("btnTapeta");
   const loginError = document.getElementById("loginError");
 
+  const accessCodeArea = document.getElementById("accessCodeArea");
+  const accessCodeInput = document.getElementById("accessCodeInput");
+  const accessCodeBtn = document.getElementById("accessCodeBtn");
+  const accessCodeError = document.getElementById("accessCodeError");
+
+  const validCodes = ["VIP2025", "TAPETA123", "NEZVEREJNUJ"]; // prístupové kódy
+
+  accessCodeBtn.addEventListener("click", () => {
+  const code = accessCodeInput.value.trim();
+  if (validCodes.includes(code)) {
+    accessCodeError.style.display = "none";
+    accessCodeArea.style.display = "none";
+
+    // Zobrazí tlačidlo na prechod ďalej (napr. ENTER)
+    btnTapeta.style.display = "block"; // alebo "flex" podľa CSS
+  } else {
+    accessCodeError.style.display = "block";
+  }
+});
+
+
   // Skrytie tlačidla pri načítaní stránky
   btnTapeta.style.display = 'none';  // Toto je riadok, ktorý skryje tlačidlo pri načítaní stránky
 
@@ -502,7 +533,7 @@ import { sendEmailVerification } from "https://www.gstatic.com/firebasejs/11.10.
       .then((userCredential) => {
         loginError.style.display = "none";
         loginForm.style.display = "none";
-        btnTapeta.style.display = "block"; // Zobrazí tlačidlo po úspešnom prihlásení
+        accessCodeArea.style.display = "block"; // Zobrazí tlačidlo po úspešnom prihlásení
       })
       .catch((error) => {
         loginError.style.display = "block";
@@ -531,7 +562,7 @@ createUserWithEmailAndPassword(auth, email, password)
   .then((loginCredential) => {
     loginError.style.display = "none";
     loginForm.style.display = "none";
-    btnTapeta.style.display = "block";
+    accessCodeArea.style.display = "block";
   })
   .catch((error) => {
     alert("Chyba: " + error.message);
@@ -586,8 +617,8 @@ function initApp() {
   // Tu pokračuje tvoja logika aplikácie, napríklad:
   // aktivovanie tlačidiel, výber citátov podľa témy a pod.
 
-  // Napríklad nastavenie tlačidla ENTER viditeľné, keď sú dáta načítané:
-  document.getElementById('btnTapeta').style.display = 'flex';
+  // Dáta sú načítané – čakáme na prihlásenie a správny kód:
+  // document.getElementById('btnTapeta').style.display = 'flex';  // deaktivované
 
   // Alebo rovno zobrazíme nejaký citát, testujeme:
   document.getElementById('randomQuote').textContent = quotesDB.citaty[0];
@@ -708,7 +739,7 @@ loginForm.addEventListener("submit", function(e) {
     // Úspešné prihlásenie
     loginError.style.display = "none";
     loginForm.style.display = "none";
-    btnTapeta.style.display = "block"; // odhalíme tlačidlo ENTER
+    accessCodeArea.style.display = "block"; // odhalíme tlačidlo ENTER
   })
   .catch((error) => {
     loginError.style.display = "block";
@@ -738,7 +769,7 @@ createUserWithEmailAndPassword(auth, email, password)
   .then((loginCredential) => {
     loginError.style.display = "none";
     loginForm.style.display = "none";
-    btnTapeta.style.display = "block";
+    accessCodeArea.style.display = "block";
   })
   .catch((error) => {
     alert("Chyba: " + error.message);
