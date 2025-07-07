@@ -493,47 +493,59 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
 
   // PRIHLÁSENIE
   loginForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
+  e.preventDefault(); // Zabránime reloadu stránky
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        loginError.style.display = "none";
-        loginForm.style.display = "none";
-        btnTapeta.style.display = "block"; // Zobrazí tlačidlo po úspešnom prihlásení
-      })
-      .catch((error) => {
-        loginError.style.display = "block";
-        console.error("Chyba pri prihlásení:", error);
-      });
-  });
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
 
-  // REGISTRÁCIA
-  registerBtn.addEventListener("click", () => {
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
+  // Pokus o prihlásenie
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
 
-    if (!email || !password) {
-      alert("Zadajte email a heslo pre registráciu.");
-      return;
-    }
+      // Skontroluj, či je používateľ overený
+      if (!user.emailVerified) {
+        alert("Prosím, potvrďte svoj email pred prihlásením.");
+        return; // Zabráni ďalšiemu vykonávaniu, ak e-mail nie je overený
+      }
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        alert("Účet bol úspešne vytvorený. Teraz sa prihlasujeme...");
-        return signInWithEmailAndPassword(auth, email, password);
-      })
-      .then((loginCredential) => {
-        loginError.style.display = "none";
-        loginForm.style.display = "none";
-        btnTapeta.style.display = "block"; // Zobrazí tlačidlo po úspešnej registrácii
-      })
-      .catch((error) => {
-        alert("Chyba: " + error.message);
-        console.error("Chyba:", error);
-      });
-  });
+      // Ak je e-mail overený, zobrazíme tlačidlo a skryjeme formulár
+      loginError.style.display = "none";
+      loginForm.style.display = "none";
+      btnTapeta.style.display = "block"; // Zobrazí tlačidlo po úspešnom prihlásení
+    })
+    .catch((error) => {
+      loginError.style.display = "block";
+      console.error("Chyba pri prihlásení:", error);
+    });
+});
+
+ registerBtn.addEventListener("click", () => {
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  if (!email || !password) {
+    alert("Zadajte email a heslo pre registráciu.");
+    return;
+  }
+
+  // Vytvorenie používateľa
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      alert("Účet bol úspešne vytvorený. Posielame overovací e-mail...");
+
+      // Poslanie overovacieho e-mailu
+      return user.sendEmailVerification();
+    })
+    .then(() => {
+      alert("Overovací e-mail bol odoslaný. Prosím, skontrolujte svoju poštu.");
+    })
+    .catch((error) => {
+      alert("Chyba: " + error.message);
+      console.error("Chyba:", error);
+    });
+});
 
   // PRECHOD na screen2
   btnTapeta.addEventListener("click", () => {
