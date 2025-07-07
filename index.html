@@ -738,7 +738,7 @@ createUserWithEmailAndPassword(auth, email, password)
   .then((loginCredential) => {
     loginError.style.display = "none";
     loginForm.style.display = "none";
-    btnTapeta.style.display = "block";
+    btnTapeta.style.display = "none";
   })
   .catch((error) => {
     alert("Chyba: " + error.message);
