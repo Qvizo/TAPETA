@@ -532,18 +532,23 @@ registerBtn.addEventListener("click", () => {
 
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Po vytvorení používateľa pošleme overovací e-mail
+      // Po úspešnej registrácii získame používateľa
       const user = userCredential.user;
 
-      // Posielame overovací e-mail
-      user.sendEmailVerification()
-        .then(() => {
-          alert("Účet bol úspešne vytvorený. Overovací e-mail bol poslaný na váš e-mail.");
-          // Môžeme ho požiadat, aby sa prihlásil po overení
-        })
-        .catch((error) => {
-          alert("Chyba pri odosielaní overovacieho e-mailu: " + error.message);
-        });
+      // Skontrolujeme, či používateľ nie je anonymný (toto je dôležité)
+      if (user && !user.isAnonymous) {
+        // Posielame overovací e-mail
+        user.sendEmailVerification()
+          .then(() => {
+            alert("Účet bol úspešne vytvorený. Overovací e-mail bol poslaný na váš e-mail.");
+            // Tu môžeš pridať logiku pre ďalšie kroky, ako napríklad presmerovanie na stránku na prihlásenie
+          })
+          .catch((error) => {
+            alert("Chyba pri odosielaní overovacieho e-mailu: " + error.message);
+          });
+      } else {
+        alert("Tento účet nie je platný.");
+      }
     })
     .catch((error) => {
       alert("Chyba: " + error.message);
