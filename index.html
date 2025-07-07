@@ -467,7 +467,9 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
     signInWithEmailAndPassword
   } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-  const firebaseConfig = {
+
+
+   const firebaseConfig = {
     apiKey: "AIzaSyALKzb-oEV_hMNx79QGgMmEh1y3RIVepg8",
     authDomain: "tapeta-app.firebaseapp.com",
     projectId: "tapeta-app",
@@ -477,19 +479,17 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
     measurementId: "G-NQED7815HC"
   };
 
-  const app = initializeApp(firebaseConfig);
+ const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const analytics = getAnalytics(app);
 
-  const loginForm = document.getElementById("loginForm");
+const loginForm = document.getElementById("loginForm");
   const emailInput = document.getElementById("emailInput");
   const passwordInput = document.getElementById("passwordInput");
   const registerBtn = document.getElementById("registerBtn");
   const btnTapeta = document.getElementById("btnTapeta");
   const loginError = document.getElementById("loginError");
 
-  // Skrytie tlačidla pri načítaní stránky
-  btnTapeta.style.display = 'none';  // Toto je riadok, ktorý skryje tlačidlo pri načítaní stránky
 
   // PRIHLÁSENIE
   loginForm.addEventListener("submit", function (e) {
@@ -497,11 +497,11 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
     const email = emailInput.value.trim();
     const password = passwordInput.value;
 
-    signInWithEmailAndPassword(auth, email, password)
+signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         loginError.style.display = "none";
         loginForm.style.display = "none";
-        btnTapeta.style.display = "block"; // Zobrazí tlačidlo po úspešnom prihlásení
+        btnTapeta.style.display = "block";
       })
       .catch((error) => {
         loginError.style.display = "block";
@@ -527,7 +527,7 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
       .then((loginCredential) => {
         loginError.style.display = "none";
         loginForm.style.display = "none";
-        btnTapeta.style.display = "block"; // Zobrazí tlačidlo po úspešnej registrácii
+        btnTapeta.style.display = "block";
       })
       .catch((error) => {
         alert("Chyba: " + error.message);
@@ -535,12 +535,16 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
       });
   });
 
+
   // PRECHOD na screen2
   btnTapeta.addEventListener("click", () => {
     document.getElementById("screen1").classList.remove("active");
     document.getElementById("screen2").classList.add("active");
   });
+
+
 </script>
+
 <script>
 
 // Premenná, do ktorej uložíme načítané dáta
@@ -693,6 +697,10 @@ function shuffleArray(array) {
     screen.classList.add("active");
   }
   
+
+
+
+
 loginForm.addEventListener("submit", function(e) {
   e.preventDefault(); // zabránime reloadu stránky
 
@@ -741,6 +749,8 @@ createUserWithEmailAndPassword(auth, email, password)
     console.error("Chyba:", error);
   });
  });
+
+
 
   // Klik na tlačidlo TAPETA (screen1)
   btnTapeta.addEventListener("click", () => {
