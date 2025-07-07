@@ -520,7 +520,12 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
     });
 });
 
- registerBtn.addEventListener("click", () => {
+ import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+
+// Inicializuj auth
+const auth = getAuth();
+
+registerBtn.addEventListener("click", () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value;
 
@@ -540,10 +545,9 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
       // Skontrolujeme, či používateľ nie je anonymný
       if (user && !user.isAnonymous) {
         // Posielame overovací e-mail
-        user.sendEmailVerification()
+        sendEmailVerification(user) // Tento spôsob je správny pre Firebase 9+ API
           .then(() => {
             alert("Účet bol úspešne vytvorený. Overovací e-mail bol poslaný na váš e-mail.");
-            // Tu môžeš pridať ďalšie kroky, ako presmerovanie na prihlásenie alebo zobrazenie správy
           })
           .catch((error) => {
             alert("Chyba pri odosielaní overovacieho e-mailu: " + error.message);
