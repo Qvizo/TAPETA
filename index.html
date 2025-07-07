@@ -520,8 +520,7 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
     });
 });
 
- // REGISTRÁCIA
-registerBtn.addEventListener("click", () => {
+ registerBtn.addEventListener("click", () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value;
 
@@ -535,24 +534,28 @@ registerBtn.addEventListener("click", () => {
       // Po úspešnej registrácii získame používateľa
       const user = userCredential.user;
 
-      // Skontrolujeme, či používateľ nie je anonymný (toto je dôležité)
+      console.log('User info:', user);  // Logovanie pre kontrolu
+      console.log('Is user anonymous?', user.isAnonymous); // Skontrolujeme, či je anonymný
+
+      // Skontrolujeme, či používateľ nie je anonymný
       if (user && !user.isAnonymous) {
         // Posielame overovací e-mail
         user.sendEmailVerification()
           .then(() => {
             alert("Účet bol úspešne vytvorený. Overovací e-mail bol poslaný na váš e-mail.");
-            // Tu môžeš pridať logiku pre ďalšie kroky, ako napríklad presmerovanie na stránku na prihlásenie
+            // Tu môžeš pridať ďalšie kroky, ako presmerovanie na prihlásenie alebo zobrazenie správy
           })
           .catch((error) => {
             alert("Chyba pri odosielaní overovacieho e-mailu: " + error.message);
+            console.error("Chyba pri odosielaní e-mailu:", error);
           });
       } else {
         alert("Tento účet nie je platný.");
       }
     })
     .catch((error) => {
-      alert("Chyba: " + error.message);
-      console.error("Chyba:", error);
+      alert("Chyba pri registrácii: " + error.message);
+      console.error("Chyba pri registrácii:", error);
     });
 });
 
