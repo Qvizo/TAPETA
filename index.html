@@ -493,75 +493,47 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
 
   // PRIHLÁSENIE
   loginForm.addEventListener("submit", function (e) {
-  e.preventDefault(); // Zabránime reloadu stránky
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
 
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        loginError.style.display = "none";
+        loginForm.style.display = "none";
+        btnTapeta.style.display = "block"; // Zobrazí tlačidlo po úspešnom prihlásení
+      })
+      .catch((error) => {
+        loginError.style.display = "block";
+        console.error("Chyba pri prihlásení:", error);
+      });
+  });
 
-  // Pokus o prihlásenie
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
+  // REGISTRÁCIA
+  registerBtn.addEventListener("click", () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
 
-      // Skontroluj, či je používateľ overený
-      if (!user.emailVerified) {
-        alert("Prosím, potvrďte svoj email pred prihlásením.");
-        return; // Zabráni ďalšiemu vykonávaniu, ak e-mail nie je overený
-      }
+    if (!email || !password) {
+      alert("Zadajte email a heslo pre registráciu.");
+      return;
+    }
 
-      // Ak je e-mail overený, zobrazíme tlačidlo a skryjeme formulár
-      loginError.style.display = "none";
-      loginForm.style.display = "none";
-      btnTapeta.style.display = "block"; // Zobrazí tlačidlo po úspešnom prihlásení
-    })
-    .catch((error) => {
-      loginError.style.display = "block";
-      console.error("Chyba pri prihlásení:", error);
-    });
-});
-
- import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
-
-// Inicializuj auth
-const auth = getAuth();
-
-registerBtn.addEventListener("click", () => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
-
-  if (!email || !password) {
-    alert("Zadajte email a heslo pre registráciu.");
-    return;
-  }
-
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Po úspešnej registrácii získame používateľa
-      const user = userCredential.user;
-
-      console.log('User info:', user);  // Logovanie pre kontrolu
-      console.log('Is user anonymous?', user.isAnonymous); // Skontrolujeme, či je anonymný
-
-      // Skontrolujeme, či používateľ nie je anonymný
-      if (user && !user.isAnonymous) {
-        // Posielame overovací e-mail
-        sendEmailVerification(user) // Tento spôsob je správny pre Firebase 9+ API
-          .then(() => {
-            alert("Účet bol úspešne vytvorený. Overovací e-mail bol poslaný na váš e-mail.");
-          })
-          .catch((error) => {
-            alert("Chyba pri odosielaní overovacieho e-mailu: " + error.message);
-            console.error("Chyba pri odosielaní e-mailu:", error);
-          });
-      } else {
-        alert("Tento účet nie je platný.");
-      }
-    })
-    .catch((error) => {
-      alert("Chyba pri registrácii: " + error.message);
-      console.error("Chyba pri registrácii:", error);
-    });
-});
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        alert("Účet bol úspešne vytvorený. Teraz sa prihlasujeme...");
+        return signInWithEmailAndPassword(auth, email, password);
+      })
+      .then((loginCredential) => {
+        loginError.style.display = "none";
+        loginForm.style.display = "none";
+        btnTapeta.style.display = "block"; // Zobrazí tlačidlo po úspešnej registrácii
+      })
+      .catch((error) => {
+        alert("Chyba: " + error.message);
+        console.error("Chyba:", error);
+      });
+  });
 
   // PRECHOD na screen2
   btnTapeta.addEventListener("click", () => {
