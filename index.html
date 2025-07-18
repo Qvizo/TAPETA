@@ -1104,10 +1104,10 @@ function getRandomQuoteFromAll() {
 
   btnStop.disabled = true;
 
-  showWordsSequentially(quote, () => {
-    btnStop.disabled = false;
-    startTimerCountdown(selectedTime);
-  });
+  randomQuote.textContent = quote;
+fitTextToContainer(randomQuote, 12, 130);
+btnStop.disabled = false;
+startTimerCountdown(selectedTime);
 }
 
   // Spustenie odpočtu času
