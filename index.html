@@ -1102,9 +1102,19 @@ function getRandomQuoteFromAll() {
   colorIndex = (colorIndex + 1) % bgColors.length;
   fontIndex = (fontIndex + 1) % fonts.length;
 
-  btnStop.disabled = true;
+ btnStop.disabled = true;
 
-  randomQuote.textContent = quote;
+// Rozdelenie citátu a autora
+const match = quote.match(/^(.*)\s+\(([^)]+)\)$/);
+const mainText = match ? match[1] : quote;
+const authorText = match ? match[2] : "";
+
+// Vloženie HTML s oddeleným autorom
+randomQuote.innerHTML = `
+  <div style="display: block; line-height: 1.4;">${mainText}</div>
+  ${authorText ? `<div style="font-size: 50%; margin-top: 0.5em;">(${authorText})</div>` : ""}
+`;
+
 fitTextToContainer(randomQuote, 12, 130);
 btnStop.disabled = false;
 startTimerCountdown(selectedTime);
