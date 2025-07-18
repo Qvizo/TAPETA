@@ -1191,17 +1191,33 @@ btnStart.addEventListener("click", () => {
   btnStop.addEventListener("click", () => {
   clearInterval(timerInterval);
 
-  // Prepnúť režim uzamknutia farieb
-  lockColors = !lockColors;
-
   if (!lockColors) {
-    // Reset uložených farieb
+    // Meníme farbu – zobrazíme rovnaký citát s inou farbou
+    const baseColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+    const lighterColor = lightenColor(baseColor, 0.3);
+    const textColor = getContrastColor(baseColor);
+
+    // Uložíme ako trvalú
+    lockedBgColor = baseColor;
+    lockedQuoteBgColor = lighterColor;
+    lockedTextColor = textColor;
+    lockColors = true;
+  } else {
+    // Vypneme trvalé farby – prepneme späť na náhodné
+    lockColors = false;
     lockedBgColor = null;
     lockedQuoteBgColor = null;
     lockedTextColor = null;
   }
 
-  displayNextQuote(); // Zobraz nový citát s (ne)zamknutými farbami
+  // Znovu zobrazí ten istý citát so zmenenými farbami
+  const currentQuote = randomQuote.textContent;
+  if (currentQuote) {
+    // len prekresli farby a fonty – bez zmeny textu
+    screen3.style.backgroundColor = lockedBgColor || bgColors[colorIndex];
+    randomQuote.style.backgroundColor = lockedQuoteBgColor || lightenColor(bgColors[colorIndex], 0.3);
+    randomQuote.style.color = lockedTextColor || getContrastColor(bgColors[colorIndex]);
+  }
 });
 
   // Tlačidlo SPÄŤ (screen3)
