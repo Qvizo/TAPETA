@@ -187,7 +187,7 @@
 /* Vo screen1 a screen2 – väčšie logo */
 #screen1 #logoTapeta2,
 #screen2 #logoTapeta2 {
-  font-size: clamp(4rem, 7vw + 3vh, 8rem);
+  font-size: clamp(5rem, 9vw + 4vh, 10rem);
 }
 
 /* Vo screen3 – menšie logo (pôvodná veľkosť) */
@@ -322,12 +322,12 @@
     
  #timerDisplay {
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: 900; /* maximálne tučné */
   font-family: monospace;
   width: 60px;
   text-align: center;
   user-select: none;
-  color: yellow;
+  color: black;
 }
     
 #textTimerWrapper {
@@ -345,10 +345,10 @@
   white-space: nowrap;  /* Zabraňuje zlomeniu textu na viac riadkov */
   font-family: monospace;
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: 900;
   display: inline-block; /* môžeš aj flex, ale inline-block bude stačiť */
   vertical-align: middle;
-  color: white;
+  color: black;
   }
   
      
@@ -473,7 +473,14 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
         font-size: 2rem;
         width: 60px;
       }
-    }
+ }
+
+@media (max-height: 500px) {
+  body {
+    height: 100dvh;
+  }
+  }
+
   </style>
 </head>
 <body>
@@ -512,17 +519,17 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
   Vyber si časový interval
 </div>
     <div class="btn-group" id="btnGroupTimer">
-      <button class="btn-timer" data-time="2">2</button>
+      <button class="btn-timer" data-time="10">10</button>
       <button class="btn-timer" data-time="20">20</button>
-      <button class="btn-timer" data-time="30">30</button>
-      <button class="btn-timer" data-time="40">40</button>
+      <button class="btn-timer" data-time="60">60</button>
+      <button class="btn-timer" data-time="120">120</button>
     </div>
 <div style="margin-bottom: 10px; font-size: 1.4rem; font-weight: bold; color: black;">
   Vyber si tému
 </div>
     <div class="btn-group" id="btnGroupTopic">
       <button class="btn-topic" data-topic="citaty">Citáty</button>
-      <button class="btn-topic" data-topic="porekadla">Porekadlá</button>
+      <button class="btn-topic" data-topic="porekadla">Príslovia</button>
       <button class="btn-topic" data-topic="vtipy">Vtipy</button>
       <button class="btn-topic" data-topic="vsetko">Všetko</button>
     </div>
