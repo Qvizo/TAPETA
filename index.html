@@ -1188,37 +1188,32 @@ btnStart.addEventListener("click", () => {
 
 
   // Tlačidlo STOP (screen3)
-  btnStop.addEventListener("click", () => {
-  clearInterval(timerInterval);
-
+btnStop.addEventListener("click", () => {
+  // Nezastavuj časovač! Iba reaguj na klik a nastav farby
   if (!lockColors) {
-    // Meníme farbu – zobrazíme rovnaký citát s inou farbou
+    // Vyber novú náhodnú farbu (bez zmeny citátu)
     const baseColor = bgColors[Math.floor(Math.random() * bgColors.length)];
     const lighterColor = lightenColor(baseColor, 0.3);
     const textColor = getContrastColor(baseColor);
 
-    // Uložíme ako trvalú
     lockedBgColor = baseColor;
     lockedQuoteBgColor = lighterColor;
     lockedTextColor = textColor;
     lockColors = true;
+
+    // Aktualizuj farby na obrazovke
+    screen3.style.backgroundColor = baseColor;
+    randomQuote.style.backgroundColor = lighterColor;
+    randomQuote.style.color = textColor;
   } else {
-    // Vypneme trvalé farby – prepneme späť na náhodné
+    // Zruš uzamknutie
     lockColors = false;
     lockedBgColor = null;
     lockedQuoteBgColor = null;
     lockedTextColor = null;
   }
-
-  // Znovu zobrazí ten istý citát so zmenenými farbami
-  const currentQuote = randomQuote.textContent;
-  if (currentQuote) {
-    // len prekresli farby a fonty – bez zmeny textu
-    screen3.style.backgroundColor = lockedBgColor || bgColors[colorIndex];
-    randomQuote.style.backgroundColor = lockedQuoteBgColor || lightenColor(bgColors[colorIndex], 0.3);
-    randomQuote.style.color = lockedTextColor || getContrastColor(bgColors[colorIndex]);
-  }
 });
+
 
   // Tlačidlo SPÄŤ (screen3)
   btnBack.addEventListener("click", () => {
