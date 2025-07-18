@@ -1102,19 +1102,43 @@ function getRandomQuoteFromAll() {
   colorIndex = (colorIndex + 1) % bgColors.length;
   fontIndex = (fontIndex + 1) % fonts.length;
 
- btnStop.disabled = true;
+btnStop.disabled = true;
 
 // Rozdelenie citátu a autora
 const match = quote.match(/^(.*)\s+\(([^)]+)\)$/);
 const mainText = match ? match[1] : quote;
 const authorText = match ? match[2] : "";
 
-// Vloženie HTML s oddeleným autorom
-randomQuote.innerHTML = `
-  <div style="display: block; line-height: 1.4;">${mainText}</div>
-  ${authorText ? `<div style="font-size: 50%; margin-top: 0.5em;">(${authorText})</div>` : ""}
-`;
+// Vytvorenie kontajnera
+randomQuote.innerHTML = ""; // vyčistenie
+const container = document.createElement("div");
+container.style.display = "flex";
+container.style.flexDirection = "column";
+container.style.alignItems = "center";
+container.style.textAlign = "center";
 
+// Hlavný citát
+const mainDiv = document.createElement("div");
+mainDiv.textContent = mainText;
+mainDiv.style.display = "block";
+
+// Autor, ak existuje
+if (authorText) {
+  const authorDiv = document.createElement("div");
+  authorDiv.textContent = `(${authorText})`;
+  authorDiv.style.fontSize = "50%";
+  authorDiv.style.marginTop = "0.5em";
+  authorDiv.style.display = "block";
+  container.appendChild(mainDiv);
+  container.appendChild(authorDiv);
+} else {
+  container.appendChild(mainDiv);
+}
+
+// Pridaj do #randomQuote
+randomQuote.appendChild(container);
+
+// Prispôsobenie veľkosti
 fitTextToContainer(randomQuote, 12, 130);
 btnStop.disabled = false;
 startTimerCountdown(selectedTime);
