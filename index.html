@@ -361,6 +361,24 @@
     
     /* MEDIA QUERIES */
     @media (max-width: 480px) and (orientation: portrait) {
+
+  #emailInput, #passwordInput, #loginForm button {
+    width: 90vw; /* širšie polia a tlačidlá */
+  }
+
+  .button-row {
+    width: 90vw; /* širší kontajner na tlačidlá */
+    flex-direction: column; /* tlačidlá pod seba */
+  }
+
+  .button-row button {
+    width: 100%; /* každé tlačidlo cez celú šírku rodiča */
+  }
+
+  #accessCodeInput, #accessCodeBtn {
+    width: 90vw; /* aj pole a tlačidlo pre prístupový kód */
+  }
+
       #btnTapeta {
         width: 70vw;
         height: 60px;
