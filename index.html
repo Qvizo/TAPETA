@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Open+Sans&family=Lato&family=Montserrat&family=Oswald&family=Raleway&family=Playfair+Display&family=Poppins&family=Ubuntu&family=Merriweather&display=swap&subset=latin-ext" rel="stylesheet">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TAPETA App</title>
   <style>
     /* Reset a základ */
     html, body {
       margin: 0; padding: 0; height: 100%;
-      overflow: hidden;
+      overflow: auto;
       font-family: Arial, sans-serif;
       display: flex; justify-content: center; align-items: center;
       background: #007bff;
@@ -429,6 +429,12 @@
     }
 
     @media (max-width: 720px) and (orientation: landscape) {
+
+#screen1, #screen2, #screen3 {
+  height: auto; /* zabezpečí prispôsobenie výške */
+  min-height: 100vh;
+  overflow-y: auto;
+}
       #btnTapeta {
         width: 50vw;
         height: 70px;
