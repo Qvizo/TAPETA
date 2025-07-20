@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TAPETA App</title>
   <style>
-    /* Reset a základ */
-    html, body {
+
+  /* Reset a základ */
+  html, body {
   margin: 0;
   padding: 0;
   min-height: 100dvh;
   height: auto;
-  overflow: auto;
+  overflow: hidden; /* ← zabráni posúvaniu */
   font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
@@ -28,8 +29,9 @@
       cursor: pointer;
       user-select: none;
     }
-    /* Obrazovky */
-    .screen {
+
+  /* Obrazovky */
+  .screen {
   position: absolute;
   top: 0;
   left: 0;
@@ -37,6 +39,7 @@
   min-height: 100dvh;
   padding: 20px;
   overflow-y: auto;
+overflow-x: hidden;
   display: none;
   flex-direction: column;
   align-items: center;
@@ -112,6 +115,8 @@
   border: 2px solid #007bff;
   box-sizing: border-box;
   text-align: center;
+display: block;
+ margin: 0 auto; /* ← kľúčové pre zarovnanie na stred */
 }
 
 #accessCodeBtn {
@@ -383,7 +388,7 @@
   }
 
   #accessCodeInput, #accessCodeBtn {
-    width: 90vw; /* aj pole a tlačidlo pre prístupový kód */
+  width: 50%; /* alebo 60%, podľa potreby */
   }
 
       #btnTapeta {
