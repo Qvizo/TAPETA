@@ -1068,10 +1068,7 @@ function showWordsSequentially(fullText, callback) {
       container.appendChild(authorDiv);
 
       fitTextToContainer(randomQuote, 12, 130);
-     setTimeout(() => {
-  fitTextToContainer(randomQuote, 12, 130);
-  if (callback) callback();
-}, 50);
+      if (callback) callback();
     }
   }
   showNext();
@@ -1110,8 +1107,7 @@ function getRandomQuoteFromAll() {
   const quotesArray = quotesDB[randomTopic];
   return quotesArray[Math.floor(Math.random() * quotesArray.length)];
 }
-let lastDisplayedQuote = null;
-  lastDisplayedQuote = quote;
+
  function displayNextQuote() {
   let quote;
 
@@ -1227,15 +1223,10 @@ if (authorText) {
 // Pridaj do #randomQuote
 randomQuote.appendChild(container);
 
-// Počkaj 1 frame + krátky timeout, kým sa DOM skutočne vykreslí
-setTimeout(() => {
-  requestAnimationFrame(() => {
-    fitTextToContainer(randomQuote, 12, 130);
-    const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-    randomQuote.style.fontSize = (currentSize * 0.9) + "px";
-  });
-}, 50);  // 50 ms zaručí, že kontajner bude už mať veľkosť
-
+// Prispôsobenie veľkosti
+fitTextToContainer(randomQuote, 12, 130);
+const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+randomQuote.style.fontSize = (currentSize * 0.9) + "px"; // zmenší o 10 %
 btnStop.disabled = false;
 startTimerCountdown(selectedTime);
 }
@@ -1346,17 +1337,7 @@ function showAllControls() {
   randomQuote.style.height = "";
   randomQuote.style.fontSize = "";
   document.getElementById("logoTapeta2").style.fontSize = "";
-if (lastDisplayedQuote) {
-    showWordsSequentially(lastDisplayedQuote);
-  }
 }
-  
-  // Prispôsobenie textu po návrate
-setTimeout(() => {
-    requestAnimationFrame(() => {
-      fitTextToContainer(randomQuote, 12, 130);
-    });
-  }, 50);
 
 // ESC – desktop
 document.addEventListener("keydown", (event) => {
