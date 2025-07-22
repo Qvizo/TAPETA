@@ -300,37 +300,54 @@ display: block;
 
 
 }
-    #controls3 {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      width: 100%;
-      max-width: 320px;
-    }
-    #controls3 button {
-      flex: 1 1 auto;
-      min-width: 80px;
-      padding: 12px 8px;
-      font-weight: bold;
-      border: 3px solid black;
-      user-select: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      text-transform: uppercase;
-      background: white;
-      transition: background-color 0.3s;
-    }
-    #controls3 button:hover:not(:disabled) {
-      background-color: #ffb6d6;
-    }
-    
-     #btnBack {
-      transform: translateX(250px);
-    }
-      #btnStop {
-      transform: translateX(-250px);
-    }
+#controls3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+#controls3 button,
+#controls3 .count-box {
+  width: 140px;
+  height: 50px;
+  font-size: 1.1rem;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 6px;
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  box-sizing: border-box;
+  padding: 0 10px;
+  line-height: 1; /* dôležité pre výšku textu */
+  vertical-align: middle;
+}
+
+#controls3 button {
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#controls3 button:hover:not(:disabled) {
+  background-color: #ffb6d6;
+}
+
+/* Špeciálne štýly pre textCount a timerDisplay */
+#textCount,
+#timerDisplay {
+  background-color: white;
+  border: 2px solid black;
+  font-family: 'Arial', sans-serif; /* rovnaký ako na tlačidlách */
+  color: black;
+}
     
  #timerDisplay {
   font-size: 2rem;
@@ -612,16 +629,14 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
   <div id="screen3" class="screen">
   <div id="logoTapeta2">TAPETA</div>
   <div id="randomQuote" aria-live="polite" aria-atomic="true"></div>
-      <div id="controls3">
-<div id="leftControls">
-      <button id="btnBack">SPÄŤ ÚVOD</button>
- <button id="btnHideAll">TAPETA</button>
-      <div id="textTimerWrapper">
-       <div id="textCount" aria-live="polite" aria-atomic="true">0/0</div>
-      <div id="timerDisplay">0</div>
-        </div>
-      <button id="btnStop" disabled>STOP COLOR</button>
-    </div>
+
+  <div id="controls3">
+  <button id="btnStop">STOP COLOR</button>
+  <div class="count-box" id="textCount">0/0</div>
+  <button id="btnHideAll">TAPETA</button>
+  <div class="count-box" id="timerDisplay">0</div>
+  <button id="btnBack">SPÄŤ ÚVOD</button>
+</div>
   </div>
 
 
