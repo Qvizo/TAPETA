@@ -1300,16 +1300,16 @@ btnStop.addEventListener("click", () => {
 
 // TAPETA režim: Skrytie všetkých ovládacích prvkov
 btnHideAll.addEventListener("click", () => {
-  isMinimalView = true;
-// ZABRÁŇ ROLLOVANIU
-  document.body.style.overflow = "hidden";
-  document.documentElement.style.overflow = "hidden";
 
-  // ODSTRAŇUJ HRANICE A VNÚTORNÉ OKRAJE
-  document.body.style.margin = "0";
-  document.body.style.padding = "0";
-  document.documentElement.style.margin = "0";
-  document.documentElement.style.padding = "0";
+// AK NIE JE FULLSCREEN, TAK ZAPNI
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  }
+
+  isMinimalView = true;
+document.body.style.overflow = "hidden"; // ← ZABRÁNI ROLLOVANIU
+document.documentElement.style.overflow = "hidden";
+
 
 
   document.getElementById("controls3").style.display = "none";
