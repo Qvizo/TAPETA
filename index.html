@@ -249,13 +249,7 @@ display: block;
 
     }
     
-    #textCount {
-      font-weight: bold;
-      margin-bottom: 12px;
-      font-size: 2rem;
-      user-select: none;
-      text-transform: uppercase;
-    }
+
     
 #randomQuote {
 
@@ -1307,6 +1301,16 @@ btnStop.addEventListener("click", () => {
 // TAPETA režim: Skrytie všetkých ovládacích prvkov
 btnHideAll.addEventListener("click", () => {
   isMinimalView = true;
+// ZABRÁŇ ROLLOVANIU
+  document.body.style.overflow = "hidden";
+  document.documentElement.style.overflow = "hidden";
+
+  // ODSTRAŇUJ HRANICE A VNÚTORNÉ OKRAJE
+  document.body.style.margin = "0";
+  document.body.style.padding = "0";
+  document.documentElement.style.margin = "0";
+  document.documentElement.style.padding = "0";
+
 
   document.getElementById("controls3").style.display = "none";
 
