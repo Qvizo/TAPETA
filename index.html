@@ -385,6 +385,17 @@ display: block;
   position: relative;
   top: -5px; /* posunie logo o 20px vyššie */
 }
+
+#effectCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
     
     /* MEDIA QUERIES */
     @media (max-width: 480px) and (orientation: portrait) {
@@ -625,6 +636,7 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
 
   <!-- SCREEN 3 -->
   <div id="screen3" class="screen">
+<canvas id="effectCanvas"></canvas> <!-- ← TU TO PRIDÁŠ -->
   <div id="logoTapeta2">TAPETA</div>
   <div id="randomQuote" aria-live="polite" aria-atomic="true"></div>
 
@@ -633,6 +645,7 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
   <div class="count-box" id="textCount">0/0</div>
   <button id="btnHideAll">TAPETA</button>
   <div class="count-box" id="timerDisplay">0</div>
+<button id="btnEffect">EFEKT</button>
   <button id="btnBack">SPÄŤ ÚVOD</button>
 </div>
   </div>
@@ -1380,6 +1393,71 @@ document.addEventListener("touchend", (event) => {
       document.exitFullscreen();
     }
   });
+
+const effectCanvas = document.getElementById("effectCanvas");
+const ctx = effectCanvas.getContext("2d");
+let particles = [];
+let effectActive = false;
+
+// Veľkosť canvasu sa prispôsobí
+function resizeCanvas() {
+  effectCanvas.width = screen3.clientWidth;
+  effectCanvas.height = screen3.clientHeight;
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+// Vytvorenie častíc
+function createParticles() {
+  particles = [];
+  for (let i = 0; i < 30; i++) {
+    particles.push({
+      x: Math.random() * effectCanvas.width,
+      y: Math.random() * effectCanvas.height,
+      size: Math.random() * 20 + 10,
+      speedY: Math.random() * 2 + 1,
+      shape: Math.random() < 0.5 ? "circle" : "square"
+    });
+  }
+}
+
+// Animácia
+function animateParticles() {
+  if (!effectActive) return;
+
+  ctx.clearRect(0, 0, effectCanvas.width, effectCanvas.height);
+  particles.forEach(p => {
+    p.y += p.speedY;
+    if (p.y > effectCanvas.height) p.y = -p.size;
+
+    ctx.fillStyle = "rgba(255,255,255,0.5)";
+    if (p.shape === "circle") {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.fillRect(p.x, p.y, p.size, p.size);
+    }
+  });
+
+  requestAnimationFrame(animateParticles);
+}
+
+// Prepínanie efektu
+document.getElementById("btnEffect").addEventListener("click", () => {
+  effectActive = !effectActive;
+
+  if (effectActive) {
+    createParticles();
+    animateParticles();
+  } else {
+    ctx.clearRect(0, 0, effectCanvas.width, effectCanvas.height);
+  }
+});
+
+
+
+
 </script>
 
 </body>
