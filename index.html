@@ -1227,6 +1227,14 @@ mainDiv.textContent = mainText;
 mainDiv.style.display = "block";
 container.appendChild(mainDiv);
 
+requestAnimationFrame(() => {
+  fitTextToContainer(randomQuote, 12, 130);
+  const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+  if (!isNaN(currentSize)) {
+    randomQuote.style.fontSize = (currentSize * 0.9) + "px";
+  }
+});
+
 // Autor
 if (authorText) {
   const authorDiv = document.createElement("div");
