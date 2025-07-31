@@ -1240,28 +1240,23 @@ if (authorText) {
 }
 
 // Pridaj do #randomQuote
-container.innerHTML = ""; // pre istotu
 randomQuote.appendChild(container);
 
-// Zobraz citát písmenko po písmenku
-showWordsSequentially(text, container, () => {
-  // Po zobrazení celého citátu uprav veľkosť
-  requestAnimationFrame(() => {
-    fitTextToContainer(randomQuote, 12, 130);
-    const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-    if (!isNaN(currentSize)) {
-      randomQuote.style.fontSize = (currentSize * 0.9) + "px";
-    }
-  });
-});
-
-
-
-
-
+// Prispôsobenie veľkosti
+fitTextToContainer(randomQuote, 12, 130);
+const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+randomQuote.style.fontSize = (currentSize * 0.9) + "px"; // zmenší o 10 %
 btnStop.disabled = false;
 startTimerCountdown(selectedTime);
 }
+
+setTimeout(() => {
+  fitTextToContainer(randomQuote, 12, 130);
+  const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+  randomQuote.style.fontSize = (currentSize * 0.9) + "px";
+}, 50);
+
+
 
   // Spustenie odpočtu času
   function startTimerCountdown(seconds) {
