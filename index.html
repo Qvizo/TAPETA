@@ -1242,10 +1242,14 @@ if (authorText) {
 // Pridaj do #randomQuote
 randomQuote.appendChild(container);
 
-// Prispôsobenie veľkosti
-fitTextToContainer(randomQuote, 12, 130);
-const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-randomQuote.style.fontSize = (currentSize * 0.9) + "px"; // zmenší o 10 %
+// Zabezpečíme, že sa prispôsobenie písma udeje PO vyrenderovaní
+requestAnimationFrame(() => {
+  fitTextToContainer(randomQuote, 12, 130);
+  const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+  randomQuote.style.fontSize = (currentSize * 0.9) + "px";
+});
+
+
 btnStop.disabled = false;
 startTimerCountdown(selectedTime);
 }
@@ -1501,7 +1505,11 @@ document.getElementById("btnEffect").addEventListener("click", () => {
   }
 });
 
-
+setTimeout(() => {
+  fitTextToContainer(randomQuote, 12, 130);
+  const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+  randomQuote.style.fontSize = (currentSize * 0.9) + "px";
+}, 100);
 
 
 </script>
