@@ -1247,19 +1247,23 @@ if (authorText) {
 
 
 // Pridaj do #randomQuote
-  randomQuote.appendChild(container);
+randomQuote.appendChild(container);
 
-  // Prispôsobenie veľkosti PO vyrenderovaní
-  setTimeout(() => {
-    fitTextToContainer(randomQuote, 12, 130);
-    const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-    if (!isNaN(currentSize)) {
-      randomQuote.style.fontSize = (currentSize * 0.9) + "px";
-    }
-  }, 50);
+// Reset fontSize pred meraním (kľúčové!)
+randomQuote.style.fontSize = "130px";
 
-  btnStop.disabled = false;
-  startTimerCountdown(selectedTime);
+// Prispôsobenie veľkosti PO vyrenderovaní (spoľahlivý delay)
+setTimeout(() => {
+  fitTextToContainer(randomQuote, 12, 130);
+  const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+  if (!isNaN(currentSize)) {
+    randomQuote.style.fontSize = (currentSize * 0.9) + "px";
+  }
+}, 80);
+
+btnStop.disabled = false;
+startTimerCountdown(selectedTime);
+
 }
 
 
