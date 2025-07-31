@@ -1225,26 +1225,19 @@ container.style.padding = "20px"; // ← PRIDANÉ!
 const mainDiv = document.createElement("div");
 mainDiv.textContent = mainText;
 mainDiv.style.display = "block";
-container.appendChild(mainDiv);
 
-requestAnimationFrame(() => {
-  fitTextToContainer(randomQuote, 12, 130);
-  const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-  if (!isNaN(currentSize)) {
-    randomQuote.style.fontSize = (currentSize * 0.9) + "px";
-  }
-});
-
-// Autor
+// Autor, ak existuje
 if (authorText) {
   const authorDiv = document.createElement("div");
   authorDiv.textContent = `(${authorText})`;
   authorDiv.style.fontSize = "50%";
   authorDiv.style.marginTop = "0.5em";
   authorDiv.style.display = "block";
+  container.appendChild(mainDiv);
   container.appendChild(authorDiv);
+} else {
+  container.appendChild(mainDiv);
 }
-
 
 // Pridaj do #randomQuote
 randomQuote.style.fontFamily = getNextFont(); // ← musí byť pred týmto
@@ -1260,14 +1253,12 @@ setTimeout(() => {
   if (!isNaN(currentSize)) {
     randomQuote.style.fontSize = (currentSize * 0.9) + "px";
   }
-}, 200);
+}, 80);
 
 btnStop.disabled = false;
 startTimerCountdown(selectedTime);
 
 }
-
-
 
   // Spustenie odpočtu času
   function startTimerCountdown(seconds) {
