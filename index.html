@@ -1221,33 +1221,20 @@ container.style.alignItems = "center";
 container.style.textAlign = "center";
 container.style.padding = "20px"; // ← PRIDANÉ!
 
-// Hlavný citát – zobraz písmenko po písmenku
+// Hlavný citát
 const mainDiv = document.createElement("div");
-mainDiv.textContent = ""; // vymaž najprv
-container.appendChild(mainDiv); // pridať najprv, inak animácia nebude fungovať
+mainDiv.textContent = mainText;
+mainDiv.style.display = "block";
+container.appendChild(mainDiv);
 
-showWordsSequentially(mainText, mainDiv, () => {
-  // Po dokončení animácie zmenši text
-  requestAnimationFrame(() => {
-    fitTextToContainer(randomQuote, 12, 130);
-    const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-    if (!isNaN(currentSize)) {
-      randomQuote.style.fontSize = (currentSize * 0.9) + "px";
-    }
-  });
-});
-
-// Autor, ak existuje
+// Autor
 if (authorText) {
   const authorDiv = document.createElement("div");
   authorDiv.textContent = `(${authorText})`;
   authorDiv.style.fontSize = "50%";
   authorDiv.style.marginTop = "0.5em";
   authorDiv.style.display = "block";
-  container.appendChild(mainDiv);
   container.appendChild(authorDiv);
-} else {
-  container.appendChild(mainDiv);
 }
 
 // Pridaj do #randomQuote
