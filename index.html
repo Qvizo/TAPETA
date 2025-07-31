@@ -1240,24 +1240,14 @@ if (authorText) {
 }
 
 // Pridaj do #randomQuote
-randomQuote.style.fontFamily = getNextFont(); // ← musí byť pred týmto
 randomQuote.appendChild(container);
 
-// Reset fontSize pred meraním (kľúčové!)
-randomQuote.style.fontSize = "130px";
-
-// Prispôsobenie veľkosti PO vyrenderovaní (spoľahlivý delay)
-setTimeout(() => {
-  fitTextToContainer(randomQuote, 12, 130);
-  const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-  if (!isNaN(currentSize)) {
-    randomQuote.style.fontSize = (currentSize * 0.9) + "px";
-  }
-}, 80);
-
+// Prispôsobenie veľkosti
+fitTextToContainer(randomQuote, 12, 130);
+const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+randomQuote.style.fontSize = (currentSize * 0.9) + "px"; // zmenší o 10 %
 btnStop.disabled = false;
 startTimerCountdown(selectedTime);
-
 }
 
   // Spustenie odpočtu času
