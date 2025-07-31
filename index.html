@@ -1244,7 +1244,10 @@ if (authorText) {
   authorDiv.style.fontSize = "50%";
   authorDiv.style.marginTop = "0.5em";
   authorDiv.style.display = "block";
+  container.appendChild(mainDiv);
   container.appendChild(authorDiv);
+} else {
+  container.appendChild(mainDiv);
 }
 
 // Pridaj do #randomQuote
