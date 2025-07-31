@@ -1240,20 +1240,19 @@ if (authorText) {
 }
 
 // Pridaj do #randomQuote
+container.innerHTML = "";
 randomQuote.appendChild(container);
 
-// Resetuj fontSize na max pred výpočtom
-randomQuote.style.fontSize = "130px";
-
-// Počkajte, kým sa DOM aktualizuje, potom prispôsobte
-setTimeout(() => {
-  fitTextToContainer(randomQuote, 12, 130);
-  const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-  if (!isNaN(currentSize)) {
-    randomQuote.style.fontSize = (currentSize * 0.9) + "px";
-  }
-}, 50);
-
+// Zobraz citát písmenko po písmenku aj pre prvý citát
+showWordsSequentially(text, container, () => {
+  requestAnimationFrame(() => {
+    fitTextToContainer(randomQuote, 12, 130);
+    const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+    if (!isNaN(currentSize)) {
+      randomQuote.style.fontSize = (currentSize * 0.9) + "px";
+    }
+  });
+});
 
 btnStop.disabled = false;
 startTimerCountdown(selectedTime);
