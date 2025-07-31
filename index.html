@@ -1247,6 +1247,7 @@ if (authorText) {
 
 
 // Pridaj do #randomQuote
+randomQuote.style.fontFamily = getNextFont(); // ← musí byť pred týmto
 randomQuote.appendChild(container);
 
 // Reset fontSize pred meraním (kľúčové!)
