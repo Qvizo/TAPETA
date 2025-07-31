@@ -1242,12 +1242,17 @@ if (authorText) {
 // Pridaj do #randomQuote
 randomQuote.appendChild(container);
 
-// Zabezpečíme, že sa prispôsobenie písma udeje PO vyrenderovaní
-requestAnimationFrame(() => {
+// Resetuj fontSize na max pred výpočtom
+randomQuote.style.fontSize = "130px";
+
+// Počkajte, kým sa DOM aktualizuje, potom prispôsobte
+setTimeout(() => {
   fitTextToContainer(randomQuote, 12, 130);
   const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-  randomQuote.style.fontSize = (currentSize * 0.9) + "px";
-});
+  if (!isNaN(currentSize)) {
+    randomQuote.style.fontSize = (currentSize * 0.9) + "px";
+  }
+}, 50);
 
 
 btnStop.disabled = false;
@@ -1349,7 +1354,7 @@ document.documentElement.style.overflow = "hidden";
 });
 
 // Funkcia na obnovenie všetkého späť
-function showAllControls() {
+function function showAllControls() {
   if (!isMinimalView) return;
 
   isMinimalView = false;
@@ -1360,6 +1365,15 @@ function showAllControls() {
   randomQuote.style.height = "";
   randomQuote.style.fontSize = "";
   document.getElementById("logoTapeta2").style.fontSize = "";
+
+  // Opätovné prispôsobenie textu po návrate z režimu TAPETA
+  setTimeout(() => {
+    fitTextToContainer(randomQuote, 12, 130);
+    const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+    if (!isNaN(currentSize)) {
+      randomQuote.style.fontSize = (currentSize * 0.9) + "px";
+    }
+  }, 50);
 }
 
 // ESC – desktop
