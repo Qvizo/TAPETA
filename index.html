@@ -1239,22 +1239,23 @@ if (authorText) {
   container.appendChild(mainDiv);
 }
 
+// Pridaj do #randomQuote
 randomQuote.appendChild(container);
 
 // Počkame, kým sa DOM aktualizuje, a potom upravíme veľkosť
 setTimeout(() => {
-  fitTextToContainer(randomQuote, 12, 130);
+  requestAnimationFrame(() => {
+    fitTextToContainer(randomQuote, 12, 130);
 
-  // Dodatočne zmenšíme text ak je stále veľký
-  const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-  if (randomQuote.scrollWidth > randomQuote.clientWidth || randomQuote.scrollHeight > randomQuote.clientHeight) {
-    randomQuote.style.fontSize = (currentSize * 0.9) + "px";
-  }
+    const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+    if (
+      randomQuote.scrollWidth > randomQuote.clientWidth ||
+      randomQuote.scrollHeight > randomQuote.clientHeight
+    ) {
+      randomQuote.style.fontSize = (currentSize * 0.9) + "px";
+    }
+  });
 }, 50);
-
-
-btnStop.disabled = false;
-startTimerCountdown(selectedTime);
 }
 
   // Spustenie odpočtu času
