@@ -1245,16 +1245,24 @@ randomQuote.appendChild(container);
 // Počkáme na vykreslenie prvého frame
 requestAnimationFrame(() => {
   // Ďalšie oneskorenie, aby sa stihli štýly prepočítať
-  setTimeout(() => {
+ setTimeout(() => {
+  requestAnimationFrame(() => {
     fitTextToContainer(randomQuote, 12, 130);
 
-    // Dodatočne zmenšíme text, ak je stále veľký
+    // Zmenši text ešte viac, ak stále preteká
     const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-    if (randomQuote.scrollWidth > randomQuote.clientWidth || randomQuote.scrollHeight > randomQuote.clientHeight) {
-      randomQuote.style.fontSize = (currentSize * 0.9) + "px";
+    if (
+      randomQuote.scrollWidth > randomQuote.clientWidth ||
+      randomQuote.scrollHeight > randomQuote.clientHeight
+    ) {
+      randomQuote.style.fontSize = (currentSize * 0.85) + "px";
+
+      // Prispôsobenie výšky rodiča, ak treba
+      randomQuote.style.maxHeight = "90vh";
+      randomQuote.style.overflowY = "auto";
     }
-  }, 0); // môžeš aj skúsiť 50 alebo 100 ak 0 nebude dosť
-});
+  });
+}, 100);
 }
 
   // Spustenie odpočtu času
