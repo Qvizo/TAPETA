@@ -1242,27 +1242,12 @@ if (authorText) {
 // Pridaj do #randomQuote
 randomQuote.appendChild(container);
 
-// Počkáme na vykreslenie prvého frame
-requestAnimationFrame(() => {
-  // Ďalšie oneskorenie, aby sa stihli štýly prepočítať
- setTimeout(() => {
-  requestAnimationFrame(() => {
-    fitTextToContainer(randomQuote, 12, 130);
-
-    // Zmenši text ešte viac, ak stále preteká
-    const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
-    if (
-      randomQuote.scrollWidth > randomQuote.clientWidth ||
-      randomQuote.scrollHeight > randomQuote.clientHeight
-    ) {
-      randomQuote.style.fontSize = (currentSize * 0.85) + "px";
-
-      // Prispôsobenie výšky rodiča, ak treba
-      randomQuote.style.maxHeight = "90vh";
-      randomQuote.style.overflowY = "auto";
-    }
-  });
-}, 100);
+// Prispôsobenie veľkosti
+fitTextToContainer(randomQuote, 12, 100);
+const currentSize = parseFloat(window.getComputedStyle(randomQuote).fontSize);
+randomQuote.style.fontSize = (currentSize * 0.9) + "px"; // zmenší o 10 %
+btnStop.disabled = false;
+startTimerCountdown(selectedTime);
 }
 
   // Spustenie odpočtu času
