@@ -1164,7 +1164,7 @@ function getRandomQuoteFromAll() {
 
   quoteCounter++;
 
-  if (adsEnabled && quoteCounter % 20 === 0) {
+  if (adsEnabled && quoteCounter % 5 === 0) {
     displayRandomAd();
     startTimerCountdown(selectedTime);
     return;
