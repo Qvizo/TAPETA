@@ -646,6 +646,7 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
   <button id="btnHideAll">TAPETA FULL</button>
   <div class="count-box" id="timerDisplay">0</div>
 <button id="btnEffect">EFEKT</button>
+<button id="btnAds">REKLAMA</button>
   <button id="btnBack">ÚVOD</button>
 </div>
   </div>
@@ -770,6 +771,38 @@ createUserWithEmailAndPassword(auth, email, password)
   });
 </script>
 <script>
+
+// ---- PREMENNÉ A FUNKCIE PRE REKLAMA ----
+let adsDB = [];
+let adsEnabled = false;
+let quoteCounter = 0;
+
+// Načítanie reklám
+async function loadAds() {
+  try {
+    const res = await fetch("reklama.json");
+    if (!res.ok) throw new Error("Chyba načítania reklám");
+    adsDB = await res.json();
+  } catch (e) {
+    console.error("Nepodarilo sa načítať reklama:", e);
+  }
+}
+loadAds();
+
+// Prepínanie tlačidla
+document.getElementById("btnAds").addEventListener("click", () => {
+  adsEnabled = !adsEnabled;
+  document.getElementById("btnAds").style.backgroundColor = adsEnabled ? "lightgreen" : "white";
+});
+
+// Funkcia na zobrazenie reklama
+function displayRandomAd() {
+  if (!adsDB.length) return;
+  const imgSrc = adsDB[Math.floor(Math.random() * adsDB.length)];
+  randomQuote.innerHTML = `<img src="${imgSrc}" style="max-width:100%; max-height:100%; border-radius:20px;">`;
+}
+
+
 
 // Premenná, do ktorej uložíme načítané dáta
 let quotesDB = {
@@ -1128,6 +1161,16 @@ function getRandomQuoteFromAll() {
 }
 
  function displayNextQuote() {
+
+  quoteCounter++;
+
+  if (adsEnabled && quoteCounter % 20 === 0) {
+    displayRandomAd();
+    startTimerCountdown(selectedTime);
+    return;
+  }
+
+
   let quote;
 
   if (selectedTopic === "vsetko") {
