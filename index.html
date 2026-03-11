@@ -100,7 +100,14 @@ overflow-x: hidden;
 #loginForm button:hover {
   background-color: #0056b3;  /* tmavšia modrá pri hover */
 }
-
+    
+#demoBtn{
+  margin-top:20px;
+  padding:12px 25px;
+  font-size:18px;
+  font-weight:bold;
+  border-radius:10px;
+}
 #accessCodeArea {
   display: flex;
   flex-direction: column;
@@ -578,6 +585,7 @@ flex-shrink: 0;   /* nedovoľí zmenšiť výšku vo flex kontejnery */
   <!-- SCREEN 1 -->
   <div id="screen1" class="screen active">
 <div id="logoTapeta2">TAPETA</div>
+    <button id="demoBtn">DEMO</button>
 <form id="loginForm">
   <input type="email" id="emailInput" placeholder="Zadajte email" required />
   <input type="password" id="passwordInput" placeholder="Zadajte heslo" required />
@@ -877,7 +885,7 @@ const btnHideAll = document.getElementById("btnHideAll");
 let isMinimalView = false;
 
   // Stav aplikácie
-
+let demoMode = false;
 let combinedAllQuotes = [];    // všetky citáty v jednom cykle
 let combinedQuoteIndex = 0;
 let combinedCycleCompleted = false;
