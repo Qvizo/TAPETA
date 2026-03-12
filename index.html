@@ -931,7 +931,13 @@ function shuffleArray(array) {
   function showScreen(screen) {
     [screen1, screen2, screen3].forEach(s => s.classList.remove("active"));
     screen.classList.add("active");
+  // DEMO iba v prvom okne
+  if (screen === screen1) {
+    document.getElementById("demoBtn").style.display = "block";
+  } else {
+    document.getElementById("demoBtn").style.display = "none";
   }
+}
   
 loginForm.addEventListener("submit", function(e) {
   e.preventDefault(); // zabránime reloadu stránky
