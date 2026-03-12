@@ -773,6 +773,7 @@ createUserWithEmailAndPassword(auth, email, password)
 
   // PRECHOD na screen2
   btnTapeta.addEventListener("click", () => {
+    document.getElementById("demoBtn").style.display = "none";
     document.getElementById("screen1").classList.remove("active");
     document.getElementById("screen2").classList.add("active");
   });
